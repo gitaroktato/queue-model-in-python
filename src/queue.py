@@ -40,16 +40,28 @@ class Queue:
         arrival_index_at = 0
         departure_index_at = 0
         self.__length = [(0, 0)]
-        while arrival_index_at < len(self.__arrival_times) or departure_index_at < len(self.__departure_times):
-            while (arrival_index_at < len(self.__arrival_times)
-                    and (departure_index_at >= len(self.__departure_times)
-                         or self.__arrival_times[arrival_index_at] < self.__departure_times[departure_index_at])):
+
+        def has_more_arrivals():
+            return arrival_index_at < len(self.__arrival_times)
+
+        def has_more_departures():
+            return departure_index_at < len(self.__departure_times)
+
+        def arrive_earlier_than_depart():
+            return self.__arrival_times[arrival_index_at] < self.__departure_times[departure_index_at]
+
+        def no_more_departures_or_arriving_first():
+            return not has_more_departures() or arrive_earlier_than_depart()
+
+        def no_more_arrivals_or_departing_first():
+            return not has_more_arrivals() or not arrive_earlier_than_depart()
+
+        while has_more_arrivals() or has_more_departures():
+            while has_more_arrivals() and no_more_departures_or_arriving_first():
                 queue_size += 1
                 self.__length += [(self.__arrival_times[arrival_index_at], queue_size)]
                 arrival_index_at += 1
-            while (departure_index_at < len(self.__departure_times)
-                   and (arrival_index_at >= len(self.__arrival_times)
-                        or self.__departure_times[departure_index_at] <= self.__arrival_times[arrival_index_at])):
+            while has_more_departures() and no_more_arrivals_or_departing_first():
                 queue_size -= 1
                 self.__length += [(self.__departure_times[departure_index_at], queue_size)]
                 departure_index_at += 1
