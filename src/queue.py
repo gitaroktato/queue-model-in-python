@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import append
 
 
 class Queue:
@@ -35,12 +36,23 @@ class Queue:
         self.__wait_times = self.__departure_times - self.__arrival_times
 
     def __process_length(self):
-        last_departure_at = int(self.__departure_times[-1]) + 1
-        self.__length = np.zeros(last_departure_at)
-        for arrive_at in self.__arrival_times:
-            self.__length[int(arrive_at):] += 1
-        for depart_at in self.__departure_times:
-            self.__length[int(depart_at):] -= 1
+        queue_size = 0
+        arrival_index_at = 0
+        departure_index_at = 0
+        self.__length = [(0, 0)]
+        while arrival_index_at < len(self.__arrival_times) or departure_index_at < len(self.__departure_times):
+            while (arrival_index_at < len(self.__arrival_times)
+                    and (departure_index_at >= len(self.__departure_times)
+                         or self.__arrival_times[arrival_index_at] < self.__departure_times[departure_index_at])):
+                queue_size += 1
+                self.__length += [(self.__arrival_times[arrival_index_at], queue_size)]
+                arrival_index_at += 1
+            while (departure_index_at < len(self.__departure_times)
+                   and (arrival_index_at >= len(self.__arrival_times)
+                        or self.__departure_times[departure_index_at] <= self.__arrival_times[arrival_index_at])):
+                queue_size -= 1
+                self.__length += [(self.__departure_times[departure_index_at], queue_size)]
+                departure_index_at += 1
 
     @property
     def departure_times(self):

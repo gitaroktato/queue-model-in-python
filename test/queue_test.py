@@ -41,7 +41,7 @@ class TestQueue:
         execution_time = np.full(shape=4, dtype=int, fill_value=2)
         queue = Queue(inter_arrival_time, execution_time)
         queue.process()
-        np.testing.assert_equal(queue.length, [0, 1, 2, 2, 3, 2, 2, 1, 1, 0])
+        np.testing.assert_equal(queue.length, [(0, 0), (1, 1), (2, 2), (3, 1), (3, 2), (4, 3), (5, 2), (7, 1), (9, 0)])
 
     def test_wait_times(self):
         inter_arrival_time = np.ones(shape=4, dtype=int)
