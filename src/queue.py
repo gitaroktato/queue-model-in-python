@@ -5,11 +5,11 @@ from numpy import append
 class Queue:
 
     def __init__(self, inter_arrival_times, execution_times, executors=1) -> None:
-        # arrival times - sorted
         self.__inter_arrival_times = inter_arrival_times
         self.__execution_times = execution_times
         self.__departure_times = np.empty_like(inter_arrival_times)
         self.__wait_times = np.empty_like(inter_arrival_times)
+        self.__utilization = np.empty_like(inter_arrival_times, dtype=float)
         self.__executor_at = 0
 
     def process(self):
@@ -29,8 +29,21 @@ class Queue:
             # we can start only if previous execution is finished
             start_at = max(self.__executor_at, arrive_at)
             processed_at = start_at + self.__execution_times[index]
+            # processing utilization
+            self.__utilization[index] = self.__process_utilization(
+                arrive_at,
+                self.__executor_at,
+                self.__execution_times[index]
+            )
             self.__executor_at = processed_at
             self.__departure_times[index] = processed_at
+
+    @staticmethod
+    def __process_utilization(arrive_at, executor_at, execution_time) -> float:
+        wait = max(arrive_at - executor_at, 0)
+        duration = execution_time + wait
+        utilization: float = 1 - wait / duration
+        return utilization
 
     def __process_wait_times(self):
         self.__wait_times = self.__departure_times - self.__arrival_times
@@ -81,5 +94,9 @@ class Queue:
     @property
     def wait_times(self):
         return self.__wait_times
+
+    @property
+    def utilization(self):
+        return self.__utilization
 
 
