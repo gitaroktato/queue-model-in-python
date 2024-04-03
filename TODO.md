@@ -7,5 +7,5 @@ https://jupyterlab.readthedocs.io/en/stable/index.html
 - [x] Using numpy arrays
 - [x] Using floating point arrival times
 - [ ] Multiple executors
-- [ ] Utilization calculation
+- [x] Utilization calculation
 
