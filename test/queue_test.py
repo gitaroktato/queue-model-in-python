@@ -28,7 +28,7 @@ class TestQueue:
         queue = Queue(inter_arrival_time, execution_time)
         queue.process()
         np.testing.assert_equal(queue.departure_times, [3, 5, 7, 9])
-        np.testing.assert_allclose(queue.utilization(0), [0.67, 1, 1, 1], rtol=1e-02)
+        np.testing.assert_allclose(queue.utilization(), [0.67, 1, 1, 1], rtol=1e-02)
 
     def test_departure_times_with_non_full_utilization(self):
         inter_arrival_time = np.full(shape=4, dtype=int, fill_value=2)
@@ -36,7 +36,7 @@ class TestQueue:
         queue = Queue(inter_arrival_time, execution_time)
         queue.process()
         np.testing.assert_equal(queue.departure_times, [3, 5, 7, 9])
-        np.testing.assert_allclose(queue.utilization(0), [0.333, 0.5, 0.5, 0.5], rtol=1e-02)
+        np.testing.assert_allclose(queue.utilization(), [0.333, 0.5, 0.5, 0.5], rtol=1e-02)
 
     def test_queue_size_with_saturation(self):
         inter_arrival_time = np.ones(shape=4, dtype=int)
@@ -58,5 +58,14 @@ class TestQueue:
         queue = Queue(inter_arrival_time, execution_time)
         queue.process()
         np.testing.assert_equal(queue.wait_times, [2, 3, 4, 5])
+
+    def test_with_two_executors(self):
+        inter_arrival_time = np.zeros(shape=8, dtype=int)
+        execution_time = np.full(shape=8, dtype=int, fill_value=100)
+        queue = Queue(inter_arrival_time, execution_time, executors=2)
+        queue.process()
+        np.testing.assert_equal(queue.departure_times, [100, 100, 200, 200, 300, 300, 400, 400])
+        np.testing.assert_allclose(queue.utilization(0), [1, 1, 1, 1], rtol=1e-02)
+        np.testing.assert_allclose(queue.utilization(1), [1, 1, 1, 1], rtol=1e-02)
 
 

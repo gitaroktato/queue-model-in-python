@@ -8,7 +8,7 @@ class Queue:
         self.__departure_times = np.empty_like(inter_arrival_times)
         self.__wait_times = np.empty_like(inter_arrival_times)
         self.__utilization_by_executor = {
-            executor_id: np.empty_like(inter_arrival_times, dtype=float)
+            executor_id: []
             for executor_id in range(0, executors)
         }
         self.__executors_at = {executor_id: 0 for executor_id in range(0, executors)}
@@ -32,11 +32,11 @@ class Queue:
             start_at = max(self.__executors_at[earliest_executor_id], arrive_at)
             processed_at = start_at + self.__execution_times[index]
             # processing utilization
-            self.__utilization_by_executor[earliest_executor_id][index] = self.__process_utilization(
+            self.__utilization_by_executor[earliest_executor_id] += [self.__process_utilization(
                 arrive_at,
                 self.__executors_at[earliest_executor_id],
                 self.__execution_times[index]
-            )
+            )]
             self.__executors_at[earliest_executor_id] = processed_at
             self.__departure_times[index] = processed_at
 
@@ -98,7 +98,7 @@ class Queue:
     def wait_times(self):
         return self.__wait_times
 
-    def utilization(self, executor_id: int):
+    def utilization(self, executor_id: int = 0):
         return self.__utilization_by_executor[executor_id]
 
 
