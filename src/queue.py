@@ -92,13 +92,13 @@ class Queue:
 
     @property
     def length(self):
-        return self.__length
+        return np.array(self.__length)
 
     @property
     def wait_times(self):
         return self.__wait_times
 
     def utilization(self, executor_id: int = 0):
-        return self.__utilization_by_executor[executor_id]
+        return np.array(self.__utilization_by_executor[executor_id])
 
 
