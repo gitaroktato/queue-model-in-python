@@ -1,6 +1,4 @@
 import numpy as np
-from numpy import append
-
 
 class Queue:
 
@@ -9,8 +7,11 @@ class Queue:
         self.__execution_times = execution_times
         self.__departure_times = np.empty_like(inter_arrival_times)
         self.__wait_times = np.empty_like(inter_arrival_times)
-        self.__utilization = np.empty_like(inter_arrival_times, dtype=float)
-        self.__executor_at = 0
+        self.__utilization_by_executor = {
+            executor_id: []
+            for executor_id in range(0, executors)
+        }
+        self.__executors_at = {executor_id: 0 for executor_id in range(0, executors)}
 
     def process(self):
         self.__process_arrival_times()
@@ -27,15 +28,16 @@ class Queue:
     def __process_departure_times(self):
         for index, arrive_at in enumerate(self.__arrival_times):
             # we can start only if previous execution is finished
-            start_at = max(self.__executor_at, arrive_at)
+            earliest_executor_id = min(self.__executors_at, key=self.__executors_at.get)
+            start_at = max(self.__executors_at[earliest_executor_id], arrive_at)
             processed_at = start_at + self.__execution_times[index]
             # processing utilization
-            self.__utilization[index] = self.__process_utilization(
+            self.__utilization_by_executor[earliest_executor_id] += [self.__process_utilization(
                 arrive_at,
-                self.__executor_at,
+                self.__executors_at[earliest_executor_id],
                 self.__execution_times[index]
-            )
-            self.__executor_at = processed_at
+            )]
+            self.__executors_at[earliest_executor_id] = processed_at
             self.__departure_times[index] = processed_at
 
     @staticmethod
@@ -52,6 +54,7 @@ class Queue:
         queue_size = 0
         arrival_index_at = 0
         departure_index_at = 0
+        # TODO dict?
         self.__length = [(0, 0)]
 
         def has_more_arrivals():
@@ -89,14 +92,13 @@ class Queue:
 
     @property
     def length(self):
-        return self.__length
+        return np.array(self.__length)
 
     @property
     def wait_times(self):
         return self.__wait_times
 
-    @property
-    def utilization(self):
-        return self.__utilization
+    def utilization(self, executor_id: int = 0):
+        return np.array(self.__utilization_by_executor[executor_id])
 
 
