@@ -7,7 +7,7 @@ class Queue:
         self.__execution_times = execution_times
         self.__departure_times = np.empty_like(inter_arrival_times)
         self.__wait_times = np.empty_like(inter_arrival_times)
-        self.__utilization_by_executor = {
+        self.__utilization_by_executor: dict[int, list[float]] = {
             executor_id: []
             for executor_id in range(0, executors)
         }
