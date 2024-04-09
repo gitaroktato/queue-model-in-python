@@ -22,7 +22,7 @@ class Queue:
     def __process_arrival_times(self):
         self.__arrival_times = np.copy(self.__inter_arrival_times)
         for index, value in enumerate(self.__arrival_times):
-            if index is not 0:
+            if index != 0:
                 self.__arrival_times[index] += self.__arrival_times[index-1]
 
     def __process_departure_times(self):
