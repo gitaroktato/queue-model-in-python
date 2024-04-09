@@ -47,6 +47,7 @@ jupyter lab
 - https://github.com/miguelrizzog96/Queue_Simulation_Python/blob/master/server.ipynb
 - https://notebook.community/xunilrj/sandbox/courses/IMTx-Queue-Theory/Week2_Lab_MM1
 - https://github.com/eveneveno/MMC_queue
+- https://github.com/miguelrizzog96/Queue_Simulation_Python
 
 ## Distributions
 - https://numpy.org/doc/stable/reference/random/generated/numpy.random.exponential.html
