@@ -1,6 +1,23 @@
 import numpy as np
 import numpy.typing as npt
 
+
+def intervals_to_timestamps(intervals: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+    timestamps = np.copy(intervals)
+    for index, value in enumerate(timestamps):
+        if index != 0:
+            timestamps[index] += timestamps[index - 1]
+    return timestamps
+
+
+def timestamps_to_intervals(timestamps: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+    intervals = np.copy(timestamps)
+    for index, value in reversed(list(enumerate(intervals))):
+        if index != 0:
+            intervals[index] -= intervals[index - 1]
+    return intervals
+
+
 class Queue:
 
     def __init__(
@@ -26,10 +43,7 @@ class Queue:
         self.__process_length()
 
     def __process_arrival_times(self) -> None:
-        self.__arrival_times = np.copy(self.__inter_arrival_times)
-        for index, value in enumerate(self.__arrival_times):
-            if index != 0:
-                self.__arrival_times[index] += self.__arrival_times[index-1]
+        self.__arrival_times = intervals_to_timestamps(self.__inter_arrival_times)
 
     def __process_departure_times(self) -> None:
         for index, arrive_at in enumerate(self.__arrival_times):
