@@ -60,8 +60,7 @@ class Queue:
         queue_size = 0
         arrival_index_at = 0
         departure_index_at = 0
-        # TODO dict?
-        self.__length = [(0, 0)]
+        self.__length: dict[float, int] = {0.0: 0}
 
         def has_more_arrivals() -> bool:
             return arrival_index_at < len(self.__arrival_times)
@@ -81,11 +80,13 @@ class Queue:
         while has_more_arrivals() or has_more_departures():
             while has_more_arrivals() and no_more_departures_or_arriving_first():
                 queue_size += 1
-                self.__length += [(self.__arrival_times[arrival_index_at], queue_size)]
+                timestamp = self.__arrival_times[arrival_index_at]
+                self.__length[timestamp] = max(queue_size, self.__length.get(timestamp, 0))
                 arrival_index_at += 1
             while has_more_departures() and no_more_arrivals_or_departing_first():
                 queue_size -= 1
-                self.__length += [(self.__departure_times[departure_index_at], queue_size)]
+                timestamp = self.__departure_times[departure_index_at]
+                self.__length[timestamp] = max(queue_size, self.__length.get(timestamp, 0))
                 departure_index_at += 1
 
     @property
@@ -97,8 +98,12 @@ class Queue:
         return self.__arrival_times
 
     @property
+    def length_with_timestamps(self) -> list[tuple[float, int]]:
+        return list(self.__length.items())
+
+    @property
     def length(self) -> npt.NDArray[np.int_]:
-        return np.array(self.__length)
+        return np.array(list(self.__length.values()))
 
     @property
     def wait_times(self) -> npt.NDArray[np.float64]:
