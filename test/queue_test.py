@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.queue import Queue
+from src.queue import Queue, intervals_to_timestamps, timestamps_to_intervals
 
 
 class TestQueue:
@@ -68,4 +68,14 @@ class TestQueue:
         np.testing.assert_allclose(queue.utilization(0), [1, 1, 1, 1], rtol=1e-02)
         np.testing.assert_allclose(queue.utilization(1), [1, 1, 1, 1], rtol=1e-02)
 
+
+class TestIntervalsAndTimestamps:
+
+    def test_intervals_to_timestamps(self):
+        result = intervals_to_timestamps(np.array([1, 1, 1, 1]))
+        np.testing.assert_equal(result, [1, 2, 3, 4])
+
+    def test_timestamps_to_intervals(self):
+        result = timestamps_to_intervals(np.array([1, 2, 3, 4]))
+        np.testing.assert_equal(result, [1, 1, 1, 1])
 
