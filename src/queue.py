@@ -52,11 +52,12 @@ class Queue:
             start_at = max(self.__executors_at[earliest_executor_id], arrive_at)
             processed_at = start_at + self.__execution_times[index]
             # processing utilization
-            self.__utilization_by_executor[earliest_executor_id] += [self.__process_utilization(
+            utilization = self.__process_utilization(
                 arrive_at,
                 self.__executors_at[earliest_executor_id],
                 self.__execution_times[index]
-            )]
+            )
+            self.__utilization_by_executor[earliest_executor_id].append(utilization)
             self.__executors_at[earliest_executor_id] = processed_at
             self.__departure_times[index] = processed_at
 
