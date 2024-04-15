@@ -3,3 +3,4 @@ matplotlib
 jupyterlab
 mypy
 pytest
+ipywidgets
