@@ -1,6 +1,6 @@
 # Queue Model in Python
 
-## Sneak and Peak
+## Sneak and Peek
 ![arrival-exponential](docs/img/arrival-exponential.png)
 ![departure-intervals](docs/img/departure-intervals.png)
 ![queue-length-burst](docs/img/queue-length-burst.png)
