@@ -1,11 +1,7 @@
 # Queue Model in Python
 
 ## Sneak and Peek
-![arrival-exponential](docs/img/arrival-exponential.png)
-![departure-intervals](docs/img/departure-intervals.png)
-![queue-length-burst](docs/img/queue-length-burst.png)
-![utilization-four-executors](docs/img/utilization-four-executors.png)
-![wait-time-bursts](docs/img/wait-time-bursts.png)
+![dashboard](docs/img/dashboard.png)
 
 ## Things it can do
 - [chaining queues](chaning.ipynb)
