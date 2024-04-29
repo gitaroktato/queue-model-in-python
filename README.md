@@ -13,6 +13,7 @@
 - [D/D/c queues](simulating-ddc-queues.ipynb)
 - [multiple executors](simulating-mdc-queues.ipynb)
 - [interesting experiments](interesting-experiments.ipynb)
+- [Little's law](littles-law.ipynb)
 
 # Starting the Examples
 Installing the environment with [`pyenv`](https://github.com/pyenv/pyenv)
