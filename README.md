@@ -7,7 +7,7 @@
 ![utilization-four-executors](docs/img/utilization-four-executors.png)
 ![wait-time-bursts](docs/img/wait-time-bursts.png)
 
-## Things that it can do
+## Things it can do
 - [chaining queues](chaning.ipynb)
 - [various distribution on the arrival side](simulating-mdc-queues.ipynb)
 - [D/D/c queues](simulating-ddc-queues.ipynb)
