@@ -6,6 +6,8 @@
 - Traffic shaping with Queues
 
 ## Exec Summary
+Queues are a built-in mechanism everywhere in today's software. Not being familiar with the basics of queuing theory will prevent you from understanding the relations between latency & throughput, high-level capacity estimations, and workload optimization. Knowing the internals of queuing models is actually not that hard to grasp. In this article, I'll sum up the essence of what's required for a software engineer to be more effective in their field.
+
 ### Interesting Use-Cases Why????
 
 ### Queues Are Everywhere!
